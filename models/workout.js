@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+// Defining workoutSchema
 const workoutSchema = new Schema(
   {
     day: {
@@ -46,7 +47,12 @@ const workoutSchema = new Schema(
   }
 );
 
-
+// adding 'totalDuration' field to exercises array Virtually using  
+workoutSchema.virtual("totalDuration").get(function() {
+  return this.exercises.reduce((total, exercise) => {
+    return total + exercise.duration;
+  }, 0);
+});
 
 const Workout = mongoose.model("Workout", workoutSchema);
 
